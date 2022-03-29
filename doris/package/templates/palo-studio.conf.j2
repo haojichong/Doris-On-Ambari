@@ -1,0 +1,48 @@
+# studio service database information
+# Studio http port
+STUDIO_PORT={{STUDIO_PORT}}
+
+# The data service type that the deployment depends on supports three types of mysql/h2/postgresql, and mysql is supported by default
+MB_DB_TYPE={{MB_DB_TYPE}}
+
+# If you use h2, you only need to configure the data engine type, and the data will be directly saved in the path where the service runs in the form of a file.
+# If you want to use mysql or postgresql, you need to configure the following connection information.
+# Database connection address
+MB_DB_HOST={{MB_DB_HOST}}
+
+# Connection port
+MB_DB_PORT={{MB_DB_PORT}}
+
+# Connect to access users
+MB_DB_USER={{MB_DB_USER}}
+
+# Connection access user password
+MB_DB_PASS={{MB_DB_PASS}}
+
+# The database accessed by the studio service (database)
+MB_DB_DBNAME={{MB_DB_DBNAME}}
+
+# The name of the deployed service, which currently supports studio and manager
+DEPLOY_NAME={{DEPLOY_NAME}}
+
+# The port of the deployed Nginx service, the default is 8090, if the deployed Nginx port is not this, this configuration must take effect
+# NGINX_PORT=8090
+
+# The port of the prometheus service, the default is 9090
+# PROMETHEUS_PORT=9090
+
+# prometheus installation directory
+# PROMETHEUS_HOME=
+
+# The operation and maintenance mailbox of the current Doris studio service instance
+# DS_ADMIN_EMAIL=
+
+# The name of the current Doris Studio service instance, the default is as follows, you can customize and modify it according to the actual situation
+# DS_SITE_NAME=Baidu-Doris-Studio
+
+# The language of the current Doris Studio service instance, the default is Chinese (zh), which can support both zh and en
+# DS_SITE_LOCALE=zh
+
+# Whether the current Doris Studio service instance is enabled with its own sample data. Currently, the built-in sample data can only be enabled when Studio uses the mysql data engine. Therefore, when the engine type is mysql, it is enabled by default.
+# But when the engine type is other databases (h2 and postgreSQL), it cannot be used even if it is turned on
+# SAMPLE_DATA_ENABLE=true

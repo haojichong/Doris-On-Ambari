@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration supports_final="true">
+    <property>
+        <name>LOG_DIR</name>
+        <value>${DORIS_HOME}/log</value>
+        <description>Doris FE 日志目录(默认在FE的安装根目录)</description>
+    </property>
+    <property>
+        <name>java8_opts</name>
+        <value>"-Xmx8192m -XX:+UseMembar -XX:SurvivorRatio=8 -XX:MaxTenuringThreshold=7 -XX:+PrintGCDateStamps
+-XX:+PrintGCDetails -XX:+UseConcMarkSweepGC -XX:+UseParNewGC -XX:+CMSClassUnloadingEnabled
+-XX:-CMSParallelRemarkEnabled -XX:CMSInitiatingOccupancyFraction=80 -XX:SoftRefLRUPolicyMSPerMB=0
+-Xloggc:$DORIS_HOME/log/fe.gc.log.$DATE
+-Dlog4j2.formatMsgNoLookups=true"
+        </value>
+        <description>JDK8 配置</description>
+    </property>
+    <property>
+        <name>java9_opts</name>
+        <value>"-Xmx4096m -XX:SurvivorRatio=8 -XX:MaxTenuringThreshold=7 -XX:+CMSClassUnloadingEnabled
+-XX:-CMSParallelRemarkEnabled -XX:CMSInitiatingOccupancyFraction=80 -XX:SoftRefLRUPolicyMSPerMB=0
+-Xlog:gc*:$DORIS_HOME/log/fe.gc.log.$DATE:time"
+        </value>
+        <description>For jdk 9+, this JAVA_OPTS will be used as default JVM options</description>
+    </property>
+    <property>
+        <name>sys_log_level</name>
+        <value>INFO</value>
+        <description>可选项:INFO, WARN, ERROR, FATAL</description>
+    </property>
+    <property>
+        <name>fe_meta_dir</name>
+        <value>/opt1/doris/metadata</value>
+        <description>FE的元数据存储目录,必须在启动FE之前创建</description>
+    </property>
+    <property>
+        <name>http_port</name>
+        <value>8030</value>
+        <description>FE上的 Http Server 端口</description>
+    </property>
+    <property>
+        <name>rpc_port</name>
+        <value>9020</value>
+        <description>FE上的 thrift server 端口,每个fe的配置需要保持一致</description>
+    </property>
+    <property>
+        <name>query_port</name>
+        <value>9030</value>
+        <description>FE上的 mysql server 端口</description>
+    </property>
+    <property>
+        <name>edit_log_port</name>
+        <value>9010</value>
+        <description>FE 上的 BDBJE 之间通信用的端口</description>
+    </property>
+    <property>
+        <name>qe_max_connection</name>
+        <value>1024</value>
+    </property>
+    <property>
+        <name>mysql_service_nio_enabled</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>enable_batch_delete_by_default</name>
+        <value>true</value>
+        <description>是否启用批量删除</description>
+    </property>
+    <property>
+        <name>disable_storage_medium_check</name>
+        <value>false</value>
+        <description>是否禁用存储介质检查</description>
+    </property>
+    <property>
+        <name>default_storage_medium</name>
+        <value>HDD</value>
+        <description>默认存储介质[HDD机械硬盘]</description>
+    </property>
+    <property>
+        <name>dynamic_partition_enable</name>
+        <value>true</value>
+        <description>是否开启动态分区</description>
+    </property>
+    <property>
+        <name>enable_materialized_view</name>
+        <value>true</value>
+        <description>是否开启物化视图</description>
+    </property>
+    <property>
+        <name>max_conn_per_user</name>
+        <value>100</value>
+    </property>
+    <property>
+        <name>qe_query_timeout_second</name>
+        <value>300</value>
+    </property>
+</configuration>

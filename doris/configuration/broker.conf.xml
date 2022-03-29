@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+
+<configuration supports_final="true">
+    <property>
+        <name>broker_ipc_port</name>
+        <value>8000</value>
+    </property>
+    <property>
+        <name>client_expire_seconds</name>
+        <value>300</value>
+    </property>
+</configuration>
+

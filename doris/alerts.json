@@ -1,0 +1,116 @@
+{
+  "DORIS": {
+    "DORIS-FE": [
+      {
+        "description": "Doris FE Process Monitor",
+        "enabled": true,
+        "interval": 1,
+        "label": "Doris FE Process",
+        "name": "Doris FE Process",
+        "scope": "ANY",
+        "source": {
+          "type": "PORT",
+          "uri": "{{fe.conf/http_port}}",
+          "default_port": 8030,
+          "reporting": {
+            "ok": {
+              "text": "TCP OK - {0:.3f}s response on port {1}"
+            },
+            "warning": {
+              "text": "TCP OK - {0:.3f}s response on port {1}",
+              "value": 2.5
+            },
+            "critical": {
+              "text": "Connection failed: {0} to {1}:{2}",
+              "value": 10.0
+            }
+          }
+        }
+      }
+    ],
+    "DORIS-BE": [
+      {
+        "description": "Doris BE Process Monitor",
+        "enabled": true,
+        "interval": 1,
+        "label": "Doris BE Process",
+        "name": "Doris BE Process",
+        "scope": "ANY",
+        "source": {
+          "type": "PORT",
+          "uri": "{{be.conf/webserver_port}}",
+          "default_port": 8040,
+          "reporting": {
+            "ok": {
+              "text": "TCP OK - {0:.3f}s response on port {1}"
+            },
+            "warning": {
+              "text": "TCP OK - {0:.3f}s response on port {1}",
+              "value": 2.5
+            },
+            "critical": {
+              "text": "Connection failed: {0} to {1}:{2}",
+              "value": 10.0
+            }
+          }
+        }
+      }
+    ],
+    "DORIS-BROKER": [
+      {
+        "description": "Doris Broker Process Monitor",
+        "enabled": true,
+        "interval": 1,
+        "label": "Doris Broker Process",
+        "name": "Doris Broker Process",
+        "scope": "ANY",
+        "source": {
+          "type": "PORT",
+          "uri": "{{broker.conf/broker_ipc_port}}",
+          "default_port": 8000,
+          "reporting": {
+            "ok": {
+              "text": "TCP OK - {0:.3f}s response on port {1}"
+            },
+            "warning": {
+              "text": "TCP OK - {0:.3f}s response on port {1}",
+              "value": 2.5
+            },
+            "critical": {
+              "text": "Connection failed: {0} to {1}:{2}",
+              "value": 10.0
+            }
+          }
+        }
+      }
+    ],
+    "PALO-STUDIO": [
+      {
+        "description": "Palo Studio Process Monitor",
+        "enabled": true,
+        "interval": 1,
+        "label": "Palo Studio Process",
+        "name": "Palo Studio Process",
+        "scope": "ANY",
+        "source": {
+          "type": "PORT",
+          "uri": "{{studio.conf/STUDIO_PORT}}",
+          "default_port": 8080,
+          "reporting": {
+            "ok": {
+              "text": "TCP OK - {0:.3f}s response on port {1}"
+            },
+            "warning": {
+              "text": "TCP OK - {0:.3f}s response on port {1}",
+              "value": 2.5
+            },
+            "critical": {
+              "text": "Connection failed: {0} to {1}:{2}",
+              "value": 10.0
+            }
+          }
+        }
+      }
+    ]
+  }
+}

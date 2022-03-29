@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+
+<configuration supports_final="true">
+    <property>
+        <name>PPROF_TMPDIR</name>
+        <value>"$DORIS_HOME/log/"</value>
+    </property>
+    <property>
+        <name>sys_log_level</name>
+        <value>INFO</value>
+        <description>可选项:INFO, WARNING, ERROR, FATAL</description>
+    </property>
+    <property>
+        <name>storage_root_path</name>
+        <value>/opt1/doris,medium:hdd,capacity:50;/opt2/doris,medium:hdd,capacity:50;</value>
+        <description>Doris 数据存储目录</description>
+    </property>
+    <property>
+        <name>be_port</name>
+        <value>9060</value>
+        <description>BE上thrift server的端口,用于接收来自FE的请求</description>
+    </property>
+    <property>
+        <name>be_rpc_port</name>
+        <value>9070</value>
+    </property>
+    <property>
+        <name>webserver_port</name>
+        <value>8040</value>
+        <description>BE上的http server的端口</description>
+    </property>
+    <property>
+        <name>heartbeat_service_port</name>
+        <value>9050</value>
+        <description>BE上心跳服务端口thrift,用于接收来自 FE 的心跳</description>
+    </property>
+    <property>
+        <name>brpc_port</name>
+        <value>8060</value>
+        <description>BE上的brpc端口,用于BE之间通讯</description>
+    </property>
+</configuration>
+
+
+
+

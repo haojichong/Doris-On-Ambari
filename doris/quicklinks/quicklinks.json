@@ -1,0 +1,54 @@
+{
+  "name": "default",
+  "description": "default quick links configuration",
+  "configuration": {
+    "protocol": {
+      "type": "https",
+      "checks": [
+        {
+          "property": "HTTPS_ONLY",
+          "desired": "HTTPS_ONLY",
+          "site": "fe.conf"
+        },
+        {
+          "property": "HTTPS_ONLY",
+          "desired": "HTTPS_ONLY",
+          "site": "studio.conf"
+        }
+      ]
+    },
+    "links": [
+      {
+        "name": "Doris_FE_UI",
+        "label": "Doris Fe",
+        "component_name": "DORIS-FE",
+        "requires_user_name": "false",
+        "url": "%@://%@:%@/",
+        "port": {
+          "http_property": "http_port",
+          "http_default_port": "8030",
+          "https_property": "http_port",
+          "https_default_port": "8030",
+          "regex": "^(\\d+)$",
+          "site": "fe.conf"
+        }
+      },
+      {
+        "name": "Palo_Studio",
+        "label": "Palo Studio UI",
+        "component_name": "PALO-STUDIO",
+        "requires_user_name": "false",
+        "url": "%@://%@:%@",
+        "port": {
+          "http_property": "STUDIO_PORT",
+          "http_default_port": "8080",
+          "https_property": "STUDIO_PORT",
+          "https_default_port": "8080",
+          "regex": "^(\\d+)$",
+          "site": "studio.conf"
+        }
+      }
+    ]
+  }
+}
+
