@@ -57,4 +57,6 @@
 7. 预编译安装包下载地址
    1. doris:[Palo文档PALO - 预编译版本下载 | Doris (baidu.com)](http://palo.baidu.com/docs/下载专区/预编译版本下载)
    2. palo_studio:[Palo文档PALO - 工具下载 | Doris (baidu.com)](http://palo.baidu.com/docs/生态工具/工具下载)
+8. 联系方式:QQ-821621741
+
 
