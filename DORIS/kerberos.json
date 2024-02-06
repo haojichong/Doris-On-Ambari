@@ -1,0 +1,44 @@
+{
+  "services": [
+    {
+      "name": "DORIS",
+      "identities": [
+        {
+          "name": "doris_smokeuser",
+          "reference": "/smokeuser"
+        },
+        {
+          "name": "doris_user",
+          "principal": {
+            "value": "${doris-env/doris_user}${principal_suffix}@${realm}",
+            "type" : "user",
+            "local_username" : "${doris-env/doris_user}",
+            "configuration": "doris-env/doris_user_principal"
+          },
+          "keytab": {
+            "file": "${keytab_dir}/doris.headless.keytab",
+            "owner": {
+              "name": "${doris-env/doris_user}",
+              "access": "r"
+            },
+            "group": {
+              "name": "${cluster-env/user_group}",
+              "access": "r"
+            },
+            "configuration": "doris-env/doris_user_keytab"
+          }
+        }
+      ],
+      "configurations": [
+      ],
+      "components": [
+        {
+          "name": "DORIS_FE"
+        },
+        {
+          "name": "DORIS_BE"
+        }
+      ]
+    }
+  ]
+}

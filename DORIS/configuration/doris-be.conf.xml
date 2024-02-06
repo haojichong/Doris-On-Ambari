@@ -1,0 +1,526 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+
+<configuration supports_final="true">
+    <property>
+        <name>CUR_DATE</name>
+        <value>`date +%Y%m%d-%H%M%S`</value>
+    </property>
+    <property>
+        <name>PPROF_TMPDIR</name>
+        <value>"/var/log/doris/be/"</value>
+    </property>
+    <property>
+        <name>JAVA_OPTS</name>
+        <value>"-Xmx8192m -DlogPath=/var/log/doris/be/jni.log -Xloggc:/var/log/doris/be/be.gc.log.$CUR_DATE -Djavax.security.auth.useSubjectCredsOnly=false -Dsun.java.command=DorisBE -XX:-CriticalJNINatives -DJDBC_MIN_POOL=1 -DJDBC_MAX_POOL=100 -DJDBC_MAX_IDLE_TIME=300000 -DJDBC_MAX_WAIT_TIME=5000"</value>
+        <description>对于JDK8,这个JAVA_OPTS将被用作默认的JVM选项</description>
+    </property>
+    <property>
+        <name>JAVA_OPTS_FOR_JDK_9</name>
+        <value>"-Xmx8192m -DlogPath=/var/log/doris/be/jni.log -Xlog:gc/var/log/doris/be/be.gc.log.$CUR_DATE -Djavax.security.auth.useSubjectCredsOnly=false -Dsun.java.command=DorisBE -XX:-CriticalJNINatives -DJDBC_MIN_POOL=1 -DJDBC_MAX_POOL=100 -DJDBC_MAX_IDLE_TIME=300000 -DJDBC_MAX_WAIT_TIME=5000"</value>
+        <description>对于JDK9+,这个JAVA_OPTS将被用作默认的JVM选项</description>
+    </property>
+<!--    <property>-->
+<!--        <name>JAVA_HOME</name>-->
+<!--        <value>/usr/lib/jvm/java</value>-->
+<!--        <description>Java Home目录</description>-->
+<!--    </property>-->
+    <property>
+        <name>JEMALLOC_CONF</name>
+        <value>"percpu_arena:percpu,background_thread:true,metadata_thp:auto,muzzy_decay_ms:15000,dirty_decay_ms:15000,oversize_threshold:0,lg_tcache_max:20,prof:false,lg_prof_interval:32,lg_prof_sample:19,prof_gdump:false,prof_accum:false,prof_leak:false,prof_final:false"</value>
+    </property>
+    <property>
+        <name>JEMALLOC_PROF_PRFIX</name>
+        <value>""</value>
+    </property>
+    <property>
+        <name>be_rpc_port</name>
+        <value>9071</value>
+        <description>Be RPC 端口</description>
+        <value-attributes>
+            <overridable>false</overridable>
+        </value-attributes>
+    </property>
+    <property>
+        <name>ssl_certificate_path</name>
+        <value>"$DORIS_HOME/conf/cert.pem"</value>
+    </property>
+    <property>
+        <name>ssl_private_key_path</name>
+        <value>"$DORIS_HOME/conf/key.pem"</value>
+    </property>
+    <property>
+        <name>sys_log_verbose_modules</name>
+        <value>*</value>
+        <description>日志打印的模块，写olap就只打印olap模块下的日志</description>
+    </property>
+    <property>
+        <name>log_buffer_level</name>
+        <value>-1</value>
+        <description>日志刷盘的策略，默认保持在内存中</description>
+    </property>
+    <property>
+        <name>be_port</name>
+        <value>9061</value>
+        <description>BE 上 thrift server 的端口号，用于接收来自 FE 的请求</description>
+        <value-attributes>
+            <overridable>false</overridable>
+        </value-attributes>
+    </property>
+    <property>
+        <name>heartbeat_service_port</name>
+        <value>9051</value>
+        <description>BE 上心跳服务端口（thrift），用于接收来自 FE 的心跳</description>
+        <value-attributes>
+            <overridable>false</overridable>
+        </value-attributes>
+    </property>
+    <property>
+        <name>webserver_port</name>
+        <value>8041</value>
+        <description>BE 上的 http server 的服务端口</description>
+        <value-attributes>
+            <overridable>false</overridable>
+        </value-attributes>
+    </property>
+    <property>
+        <name>brpc_port</name>
+        <value>8061</value>
+        <description>BE 上的 brpc 的端口，用于 BE 之间通讯</description>
+        <value-attributes>
+            <overridable>false</overridable>
+        </value-attributes>
+    </property>
+    <property>
+        <name>enable_auth</name>
+        <value>false</value>
+    </property>
+    <property>
+        <name>enable_https</name>
+        <value>false</value>
+        <description>是否支持https. 如果是，需要在be.conf中配置ssl_certificate_path和ssl_private_key_path</description>
+    </property>
+    <property>
+        <name>storage_root_path</name>
+        <value>/data/doris/be/storage,medium:hdd,capacity:70;</value>
+        <description>BE数据存储的目录,多目录之间用英文状态的分号;分隔。可以通过路径区别存储目录的介质，HDD或SSD。可以添加容量限制在每个路径的末尾，通过英文状态逗号,隔开。
+            示例如下：
+            注意：不论HHD磁盘目录还是SSD磁盘目录，都无需添加后缀，storage_root_path参数里指定medium即可
+            storage_root_path=/home/disk1/doris,medium:hdd,capacity:70;/home/disk2/doris,medium:ssd,capacity:70;
+            说明
+            /home/disk1/doris,medium:hdd,capacity:70;，表示存储介质是HHD,使用容量为70%;
+            /home/disk2/doris,medium:ssd,capacity:70;，表示存储介质是SSD,使用容量为70%;
+        </description>
+    </property>
+    <property>
+        <name>heartbeat_service_thread_count</name>
+        <value>1</value>
+        <description>执行BE上心跳服务的线程数，默认为1，不建议修改</description>
+    </property>
+    <property>
+        <name>ignore_broken_disk</name>
+        <value>false</value>
+        <description>当BE启动时，会检查storage_root_path 配置下的所有路径。
+            true: 如果路径不存在或路径下无法进行读写文件(坏盘)，将忽略此路径，如果有其他可用路径则不中断启动。
+            false: 如果路径不存在或路径下无法进行读写文件(坏盘)，将中断启动失败退出。
+        </description>
+    </property>
+    <property>
+        <name>mem_limit</name>
+        <value>80%</value>
+        <description>
+            限制BE进程使用服务器最大内存百分比。用于防止BE内存挤占太多的机器内存，该参数必须大于0，当百分大于100%之后，该值会默认为100%。
+        </description>
+    </property>
+    <property>
+        <name>trash_file_expire_time_sec</name>
+        <value>259200</value>
+        <description>回收站清理的间隔，72个小时，当磁盘空间不足时，trash下的文件保存期可不遵守这个参数</description>
+        <value-attributes>
+            <type>int</type>
+            <unit>Seconds</unit>
+        </value-attributes>
+    </property>
+    <property>
+        <name>external_table_connect_timeout_sec</name>
+        <value>30</value>
+        <description>和外部表建立连接的超时时间。</description>
+        <value-attributes>
+            <type>int</type>
+            <unit>Seconds</unit>
+        </value-attributes>
+    </property>
+    <property>
+        <name>brpc_num_threads</name>
+        <value>-1</value>
+        <description>该配置主要用来修改brpc中bthreads的数量. 该配置的默认值被设置为-1,
+            这意味着bthreads的数量将被设置为机器的cpu核数。
+        </description>
+    </property>
+    <property>
+        <name>thrift_rpc_timeout_ms</name>
+        <value>60000</value>
+        <description>thrift默认超时时间</description>
+        <value-attributes>
+            <type>int</type>
+            <unit>ms</unit>
+        </value-attributes>
+    </property>
+    <property>
+        <name>thrift_client_retry_interval_ms</name>
+        <value>1000</value>
+        <description>用来为be的thrift客户端设置重试间隔, 避免fe的thrift server发生雪崩问题</description>
+        <value-attributes>
+            <type>int</type>
+            <unit>ms</unit>
+        </value-attributes>
+    </property>
+    <property>
+        <name>thrift_connect_timeout_seconds</name>
+        <value>180</value>
+        <description>默认thrift客户端连接超时时间</description>
+        <value-attributes>
+            <type>int</type>
+            <unit>Seconds</unit>
+        </value-attributes>
+    </property>
+    <property>
+        <name>string_type_length_soft_limit_bytes</name>
+        <value>1048576</value>
+        <description>String 类型最大长度的软限</description>
+        <value-attributes>
+            <type>int</type>
+            <unit>Bytes</unit>
+        </value-attributes>
+    </property>
+    <property>
+        <name>fragment_pool_queue_size</name>
+        <value>4096</value>
+        <description>单节点上能够处理的查询请求上限</description>
+    </property>
+    <property>
+        <name>fragment_pool_thread_num_min</name>
+        <value>64</value>
+        <description>查询线程数，默认最小启动64个线程。</description>
+    </property>
+    <property>
+        <name>fragment_pool_thread_num_max</name>
+        <value>2048</value>
+        <description>后续查询请求动态创建线程，最大创建2048个线程。</description>
+    </property>
+    <property>
+        <name>doris_scanner_row_num</name>
+        <value>16384</value>
+        <description>每个扫描线程单次执行最多返回的数据行数</description>
+    </property>
+    <property>
+        <name>doris_scanner_row_bytes</name>
+        <value>10485760</value>
+        <description>每个扫描线程单次执行最多返回的数据字节
+            说明：如果表的列数太多,遇到 select * 卡主，可以调整这个配置
+        </description>
+        <value-attributes>
+            <type>int</type>
+            <unit>Bytes</unit>
+        </value-attributes>
+    </property>
+    <property>
+        <name>max_pushdown_conditions_per_column</name>
+        <value>1024</value>
+        <description>
+            用于限制一个查询请求中，针对单个列，能够下推到存储引擎的最大条件数量。在查询计划执行的过程中，一些列上的过滤条件可以下推到存储引擎，这样可以利用存储引擎中的索引信息进行数据过滤，减少查询需要扫描的数据量。比如等值条件、IN
+            谓词中的条件等。这个参数在绝大多数情况下仅影响包含 IN 谓词的查询。如 WHERE colA IN (1,2,3,4,...)。较大的数值意味值
+            IN 谓词中更多的条件可以推送给存储引擎，但过多的条件可能会导致随机读的增加，某些情况下可能会降低查询效率。
+        </description>
+    </property>
+    <property>
+        <name>doris_scan_range_max_mb</name>
+        <value>1024</value>
+        <description>每个OlapScanner 读取的最大数据量</description>
+        <value-attributes>
+            <type>int</type>
+            <unit>MB</unit>
+            <overridable>false</overridable>
+        </value-attributes>
+    </property>
+    <property>
+        <name>disable_auto_compaction</name>
+        <value>false</value>
+        <description>关闭自动执行compaction任务</description>
+    </property>
+    <property>
+        <name>enable_vertical_compaction</name>
+        <value>true</value>
+        <description>是否开启列式compaction</description>
+    </property>
+    <property>
+        <name>enable_ordered_data_compaction</name>
+        <value>true</value>
+        <description>是否开启有序数据的compaction</description>
+    </property>
+    <property>
+        <name>max_base_compaction_threads</name>
+        <value>4</value>
+        <description>Base Compaction线程池中线程数量的最大值。</description>
+    </property>
+    <property>
+        <name>default_rowset_type</name>
+        <value>BETA</value>
+        <description>标识BE默认选择的存储格式，可配置的参数为："ALPHA", "BETA"。主要起以下两个作用
+            当建表的storage_format设置为Default时，通过该配置来选取BE的存储格式。
+            进行Compaction时选择BE的存储格式
+        </description>
+    </property>
+    <property>
+        <name>compaction_task_num_per_disk</name>
+        <value>4</value>
+        <description>每个磁盘（HDD）可以并发执行的compaction任务数量。</description>
+    </property>
+    <property>
+        <name>compaction_task_num_per_fast_disk</name>
+        <value>8</value>
+        <description>每个高速磁盘（SSD）可以并发执行的compaction任务数量。</description>
+    </property>
+    <property>
+        <name>enable_stream_load_record</name>
+        <value>false</value>
+        <description>是否开启 stream load 操作记录，默认是不启用</description>
+    </property>
+    <property>
+        <name>load_data_reserve_hours</name>
+        <value>4</value>
+        <description>用于mini load。mini load数据文件将在此时间后被删除</description>
+        <value-attributes>
+            <type>int</type>
+            <unit>Hours</unit>
+        </value-attributes>
+    </property>
+    <property>
+        <name>enable_single_replica_load</name>
+        <value>true</value>
+        <description>是否启动单副本数据导入功能</description>
+    </property>
+    <property>
+        <name>max_segment_num_per_rowset</name>
+        <value>1000</value>
+        <description>用于限制导入时，新产生的rowset中的segment数量。如果超过阈值，导入会失败并报错 -238。过多的 segment
+            会导致compaction占用大量内存引发 OOM 错误。
+        </description>
+    </property>
+    <property>
+        <name>high_priority_flush_thread_num_per_store</name>
+        <value>6</value>
+        <description>每个存储路径所分配的用于高优导入任务的 flush 线程数量。</description>
+    </property>
+    <property>
+        <name>max_consumer_num_per_group</name>
+        <value>3</value>
+        <description>一个数据消费者组中的最大消费者数量，用于routine load。</description>
+    </property>
+    <property>
+        <name>streaming_load_max_mb</name>
+        <value>10240</value>
+        <description>用于限制数据格式为 csv 的一次 Stream load 导入中，允许的最大数据量。
+            Stream Load 一般适用于导入几个GB以内的数据，不适合导入过大的数据。
+        </description>
+        <value-attributes>
+            <type>int</type>
+            <unit>MB</unit>
+        </value-attributes>
+    </property>
+    <property>
+        <name>streaming_load_json_max_mb</name>
+        <value>100</value>
+        <description>用于限制数据格式为 json 的一次 Stream load 导入中，允许的最大数据量。单位 MB。
+            一些数据格式，如 JSON，无法进行拆分处理，必须读取全部数据到内存后才能开始解析，因此，这个值用于限制此类格式数据单次导入最大数据量。
+        </description>
+        <value-attributes>
+            <type>int</type>
+            <unit>MB</unit>
+        </value-attributes>
+    </property>
+    <property>
+        <name>memory_limitation_per_thread_for_schema_change_bytes</name>
+        <value>2147483648</value>
+        <description>单个schema change任务允许占用的最大内存</description>
+        <value-attributes>
+            <type>int</type>
+            <unit>Bytes</unit>
+        </value-attributes>
+    </property>
+    <property>
+        <name>write_buffer_size</name>
+        <value>104857600</value>
+        <description>刷写前缓冲区的大小
+            导入数据在 BE 上会先写入到一个内存块，当这个内存块达到阈值后才会写回磁盘。默认大小是 100MB。过小的阈值可能导致
+            BE 上存在大量的小文件。可以适当提高这个阈值减少文件数量。但过大的阈值可能导致 RPC 超时
+        </description>
+        <value-attributes>
+            <type>int</type>
+            <unit>Bytes</unit>
+        </value-attributes>
+    </property>
+    <property>
+        <name>file_cache_alive_time_sec</name>
+        <value>604800</value>
+        <description>缓存文件的保存时间，默认时间为一周</description>
+        <value-attributes>
+            <type>int</type>
+            <unit>Seconds</unit>
+            <overridable>false</overridable>
+        </value-attributes>
+    </property>
+    <property>
+        <name>file_cache_max_size_per_disk</name>
+        <value>0</value>
+        <description>缓存占用磁盘大小，一旦超过这个设置，会删除最久未访问的缓存，为0则不限制大小。</description>
+        <value-attributes>
+            <type>int</type>
+            <unit>Bytes</unit>
+        </value-attributes>
+    </property>
+    <property>
+        <name>max_sub_cache_file_size</name>
+        <value>104857600</value>
+        <description>缓存文件使用sub_file_cache时，切分文件的最大大小</description>
+        <value-attributes>
+            <type>int</type>
+            <unit>Bytes</unit>
+        </value-attributes>
+    </property>
+    <property>
+        <name>generate_cache_cleaner_task_interval_sec</name>
+        <value>43200</value>
+        <description>缓存文件的清理间隔</description>
+        <value-attributes>
+            <type>int</type>
+            <unit>Seconds</unit>
+        </value-attributes>
+    </property>
+    <property>
+        <name>default_num_rows_per_column_file_block</name>
+        <value>1024</value>
+        <description>配置单个RowBlock之中包含多少行的数据。</description>
+    </property>
+    <property>
+        <name>disk_stat_monitor_interval</name>
+        <value>5</value>
+        <description>磁盘状态检查时间间隔</description>
+        <value-attributes>
+            <type>int</type>
+            <unit>Seconds</unit>
+        </value-attributes>
+    </property>
+    <property>
+        <name>max_garbage_sweep_interval</name>
+        <value>3600</value>
+        <description>磁盘进行垃圾清理的最大间隔</description>
+        <value-attributes>
+            <type>int</type>
+            <unit>Seconds</unit>
+        </value-attributes>
+    </property>
+    <property>
+        <name>min_garbage_sweep_interval</name>
+        <value>180</value>
+        <description>磁盘进行垃圾清理的最小间隔</description>
+        <value-attributes>
+            <type>int</type>
+            <unit>Seconds</unit>
+        </value-attributes>
+    </property>
+    <property>
+        <name>storage_flood_stage_left_capacity_bytes</name>
+        <value>1073741824</value>
+        <description>数据目录应该剩下的最小存储空间，默认1G</description>
+        <value-attributes>
+            <type>int</type>
+            <unit>Bytes</unit>
+        </value-attributes>
+    </property>
+    <property>
+        <name>storage_flood_stage_usage_percent</name>
+        <value>90</value>
+        <description>storage_flood_stage_usage_percent和storage_flood_stage_left_capacity_bytes两个配置限制了数据目录的磁盘容量的最大使用。
+            如果这两个阈值都达到，则无法将更多数据写入该数据目录。 数据目录的最大已用容量百分比
+        </description>
+        <value-attributes>
+            <type>int</type>
+            <unit>%</unit>
+        </value-attributes>
+    </property>
+    <property>
+        <name>max_tablet_version_num</name>
+        <value>2000</value>
+        <description>限制单个 tablet 最大 version 的数量。用于防止导入过于频繁，或 compaction 不及时导致的大量 version
+            堆积问题。当超过限制后，导入任务将被拒绝。
+        </description>
+    </property>
+    <property>
+        <name>tablet_rowset_stale_sweep_time_sec</name>
+        <value>300</value>
+        <description>用来表示清理合并版本的过期时间，当当前时间 now()
+            减去一个合并的版本路径中rowset最近创建创建时间大于tablet_rowset_stale_sweep_time_sec时，对当前路径进行清理，删除这些合并过的rowset,
+            单位为s。
+            当写入过于频繁，可能会引发fe查询不到已经合并过的版本，引发查询-230错误。可以通过调大该参数避免该问题。
+        </description>
+        <value-attributes>
+            <type>int</type>
+            <unit>Seconds</unit>
+        </value-attributes>
+    </property>
+    <property>
+        <name>alter_tablet_worker_count</name>
+        <value>3</value>
+        <description>进行schema change的线程数</description>
+    </property>
+    <property>
+        <name>alter_index_worker_count</name>
+        <value>3</value>
+        <description>进行index change的线程数</description>
+    </property>
+    <property>
+        <name>ignore_load_tablet_failure</name>
+        <value>false</value>
+        <description>BE启动时，会对每个数据目录单独启动一个线程进行 tablet header 元信息的加载。默认配置下，如果某个数据目录有
+            tablet 加载失败，则启动进程会终止。同时会在 be.INFO 日志中看到如下错误信息：
+            `load tablets from header failed, failed tablets size: xxx, path=xxx`
+            表示该数据目录共有多少 tablet 加载失败。同时，日志中也会有加载失败的 tablet 的具体信息。此时需要人工介入来对错误原因进行排查。
+            排查后，通常有两种方式进行恢复：
+            tablet 信息不可修复，在确保其他副本正常的情况下，可以通过 meta_tool 工具将错误的tablet删除。
+            将 ignore_load_tablet_failure 设置为 true，则 BE 会忽略这些错误的 tablet，正常启动。
+        </description>
+    </property>
+    <property>
+        <name>sys_log_dir</name>
+        <value>/var/log/doris/be</value>
+        <description>BE日志数据的存储目录</description>
+    </property>
+    <property>
+        <name>sys_log_level</name>
+        <value>INFO</value>
+        <description>可选项:INFO, WARNING, ERROR, FATAL</description>
+    </property>
+    <property>
+        <name>sys_log_roll_mode</name>
+        <value>SIZE-MB-1024</value>
+        <description>日志拆分的大小，每1G拆分一个日志文件</description>
+    </property>
+    <property>
+        <name>sys_log_roll_num</name>
+        <value>10</value>
+        <description>日志文件保留的数目</description>
+    </property>
+    <property>
+        <name>enable_system_metrics</name>
+        <value>true</value>
+        <description>用户控制打开和关闭系统指标</description>
+    </property>
+    <property>
+        <name>enable_query_memory_overcommit</name>
+        <value>true</value>
+        <description>如果为true，则当内存未超过 exec_mem_limit 时，查询内存将不受限制；当进程内存超过 exec_mem_limit 且大于
+            2GB 时，查询会被取消。如果为false，则在使用的内存超过 exec_mem_limit 时取消查询。
+        </description>
+    </property>
+</configuration>

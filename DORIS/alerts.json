@@ -1,0 +1,116 @@
+{
+  "DORIS": {
+    "DORIS_FE": [
+      {
+        "description": "Doris FE Follower Process Monitor",
+        "enabled": true,
+        "interval": 1,
+        "label": "Doris FE Follower Process",
+        "name": "Doris FE Follower Process",
+        "scope": "ANY",
+        "source": {
+          "type": "PORT",
+          "uri": "{{fe.conf/http_port}}",
+          "default_port": 8031,
+          "reporting": {
+            "ok": {
+              "text": "TCP OK - {0:.3f}s response on port {1}"
+            },
+            "warning": {
+              "text": "TCP OK - {0:.3f}s response on port {1}",
+              "value": 2.5
+            },
+            "critical": {
+              "text": "Connection failed: {0} to {1}:{2}",
+              "value": 10.0
+            }
+          }
+        }
+      }
+    ],
+    "DORIS_BE": [
+      {
+        "description": "Doris BE Process Monitor",
+        "enabled": true,
+        "interval": 1,
+        "label": "Doris BE Process",
+        "name": "Doris BE Process",
+        "scope": "ANY",
+        "source": {
+          "type": "PORT",
+          "uri": "{{be.conf/webserver_port}}",
+          "default_port": 8041,
+          "reporting": {
+            "ok": {
+              "text": "TCP OK - {0:.3f}s response on port {1}"
+            },
+            "warning": {
+              "text": "TCP OK - {0:.3f}s response on port {1}",
+              "value": 2.5
+            },
+            "critical": {
+              "text": "Connection failed: {0} to {1}:{2}",
+              "value": 10.0
+            }
+          }
+        }
+      }
+    ],
+    "DORIS_FE_OBSERVER": [
+      {
+        "description": "Doris FE Observer Process Monitor",
+        "enabled": true,
+        "interval": 1,
+        "label": "Doris FE Observer Process",
+        "name": "Doris FE Observer Process",
+        "scope": "ANY",
+        "source": {
+          "type": "PORT",
+          "uri": "{{fe.conf/http_port}}",
+          "default_port": 8031,
+          "reporting": {
+            "ok": {
+              "text": "TCP OK - {0:.3f}s response on port {1}"
+            },
+            "warning": {
+              "text": "TCP OK - {0:.3f}s response on port {1}",
+              "value": 2.5
+            },
+            "critical": {
+              "text": "Connection failed: {0} to {1}:{2}",
+              "value": 10.0
+            }
+          }
+        }
+      }
+    ],
+    "DORIS_HDFS_BROKER": [
+      {
+        "description": "Doris Broker Process Monitor",
+        "enabled": true,
+        "interval": 1,
+        "label": "Doris Broker Process",
+        "name": "Doris Broker Process",
+        "scope": "ANY",
+        "source": {
+          "type": "PORT",
+          "uri": "{{broker.conf/broker_ipc_port}}",
+          "default_port": 8001,
+          "reporting": {
+            "ok": {
+              "text": "TCP OK - {0:.3f}s response on port {1}"
+            },
+            "warning": {
+              "text": "TCP OK - {0:.3f}s response on port {1}",
+              "value": 2.5
+            },
+            "critical": {
+              "text": "Connection failed: {0} to {1}:{2}",
+              "value": 10.0
+            }
+          }
+        }
+      }
+    ]
+  }
+}

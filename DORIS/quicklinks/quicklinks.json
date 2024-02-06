@@ -1,0 +1,26 @@
+{
+  "name": "default",
+  "description": "default quick links configuration",
+  "configuration": {
+    "protocol": {
+      "type": "HTTP_ONLY"
+    },
+    "links": [
+      {
+        "name": "doris fe web ui",
+        "label": "FE Follower UI",
+        "component_name": "DORIS_FE",
+        "requires_user_name": "false",
+        "url": "%@://%@:%@",
+        "port": {
+          "http_property": "http_port",
+          "http_default_port": "8031",
+          "https_property": "http_port",
+          "https_default_port": "8031",
+          "regex": "^(\\d+)$",
+          "site": "doris-fe-conf"
+        }
+      }
+    ]
+  }
+}

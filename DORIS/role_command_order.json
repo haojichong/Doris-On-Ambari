@@ -1,0 +1,9 @@
+{
+  "general_deps" : {
+    "_comment" : "dependencies for DORIS",
+    "DORIS_SERVICE_CHECK-SERVICE_CHECK" : ["DORIS_FE-START","DORIS_BE-START"],
+    "DORIS_BE-START" : ["DORIS_FE-START"],
+	"DORIS_HDFS_BROKER-START" : ["DORIS_FE-START"],
+	"DORIS_FE_OBSERVER-START" : ["DORIS_FE-START"]
+  }
+}

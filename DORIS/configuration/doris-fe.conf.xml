@@ -1,0 +1,518 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration supports_final="true">
+    <property>
+        <name>LOG_DIR</name>
+        <value>/var/log/doris/fe</value>
+        <description>Doris FE的日志目录</description>
+    </property>
+    <property>
+        <name>JAVA_OPTS</name>
+        <value>"-Djavax.security.auth.useSubjectCredsOnly=false -Xss4m -Xmx8192m -XX:+UseMembar -XX:SurvivorRatio=8 -XX:MaxTenuringThreshold=7 -XX:+PrintGCDateStamps -XX:+PrintGCDetails -XX:+UseConcMarkSweepGC -XX:+UseParNewGC -XX:+CMSClassUnloadingEnabled -XX:-CMSParallelRemarkEnabled -XX:CMSInitiatingOccupancyFraction=80 -XX:SoftRefLRUPolicyMSPerMB=0 -Xloggc:/var/log/doris/fe/fe.gc.log.$CUR_DATE"</value>
+        <description>对于JDK8,这个JAVA_OPTS将被用作默认的JVM选项</description>
+    </property>
+    <property>
+        <name>JAVA_OPTS_FOR_JDK_9</name>
+        <value>"-Djavax.security.auth.useSubjectCredsOnly=false -Xss4m -Xmx8192m -XX:SurvivorRatio=8 -XX:MaxTenuringThreshold=7 -XX:+CMSClassUnloadingEnabled -XX:-CMSParallelRemarkEnabled -XX:CMSInitiatingOccupancyFraction=80 -XX:SoftRefLRUPolicyMSPerMB=0 -Xlog:gc*:/var/log/doris/fe/fe.gc.log.$CUR_DATE:time"</value>
+        <description>对于JDK9+,这个JAVA_OPTS将被用作默认的JVM选项</description>
+    </property>
+    <property>
+        <name>sys_log_mode</name>
+        <value>NORMAL</value>
+        <description>FE 日志的输出模式,可选项:NORMAL, BRIEF, ASYNC
+            其中 NORMAL 为默认的输出模式,日志同步输出且包含位置信息,
+            BRIEF 模式是日志同步输出但不包含位置信息,
+            ASYNC 模式是日志异步输出且不包含位置信息,
+            三种日志输出模式的性能依次递增.
+        </description>
+    </property>
+    <property>
+        <name>CUR_DATE</name>
+        <value>`date +%Y%m%d-%H%M%S`</value>
+    </property>
+    <property>
+        <name>audit_log_modules</name>
+        <value>slow_query, query</value>
+        <description>FE 审计日志文件的种类,可选项:slow_query, query, load, stream_load</description>
+    </property>
+    <property>
+        <name>audit_log_roll_num</name>
+        <value>30</value>
+        <description>FE 审计日志文件的最大数量.超过这个数量后,最老的日志文件会被删除</description>
+    </property>
+    <property>
+        <name>qe_slow_log_ms</name>
+        <value>5000</value>
+        <description>慢查询的阈值,单位为毫秒.如果一个查询的响应时间超过这个阈值,则会被记录在 audit log 中.</description>
+        <value-attributes>
+            <type>int</type>
+            <unit>ms</unit>
+        </value-attributes>
+    </property>
+    <property>
+        <name>dynamic_partition_enable</name>
+        <value>true</value>
+        <description>是否启用动态分区</description>
+    </property>
+    <property>
+        <name>meta_dir</name>
+        <value>/data/doris/fe/metadata</value>
+        <description>Doris FE的元数据存储目录</description>
+    </property>
+    <property>
+        <name>enable_bdbje_debug_mode</name>
+        <value>false</value>
+        <description>如果设置为 true,FE 将在 BDBJE 调试模式下启动,在 Web 页面 System->bdbje
+            可以查看相关信息,否则不可以查看
+        </description>
+    </property>
+    <property>
+        <name>max_bdbje_clock_delta_ms</name>
+        <value>60000</value>
+        <description>非 Master FE 与 Master FE 的最大时钟偏差,单位为毫秒.
+            这个配置用于在非 Master FE 与 Master FE 之间建立 BDBJE 连接时检查时钟偏差,
+            如果时钟偏差超过这个阈值,则 BDBJE 连接会被放弃.
+        </description>
+        <value-attributes>
+            <type>int</type>
+            <unit>ms</unit>
+        </value-attributes>
+    </property>
+    <property>
+        <name>metadata_failure_recovery</name>
+        <value>false</value>
+        <description>如果为 true,FE 将重置 bdbje 复制组(即删除所有可选节点信息)并应该作为 Master 启动.
+            如果所有可选节点都无法启动,我们可以将元数据复制到另一个节点并将此配置设置为 true 以尝试重新启动 FE.
+        </description>
+    </property>
+    <property>
+        <name>bdbje_replica_ack_timeout_second</name>
+        <value>10</value>
+        <description>BDBJE 主从节点间同步的超时时间,单位为秒.如果出现大量的 ReplicaWriteException,可以适当增大这个值
+        </description>
+        <value-attributes>
+            <type>int</type>
+            <unit>Seconds</unit>
+        </value-attributes>
+    </property>
+    <property>
+        <name>bdbje_heartbeat_timeout_second</name>
+        <value>30</value>
+        <description>BDBJE 主从节点间心跳超时时间,单位为秒.默认值为 30 秒,与 BDBJE 的默认值相同.
+            如果网络不稳定,或者 Java GC 经常导致长时间的暂停,可以适当增大这个值,减少误报超时的概率
+        </description>
+    </property>
+    <value-attributes>
+        <type>int</type>
+        <unit>Seconds</unit>
+    </value-attributes>
+    <property>
+        <name>replica_ack_policy</name>
+        <value>SIMPLE_MAJORITY</value>
+        <description>bdbje的副本 ack 策略.
+            ALL:所有ELECTABLE副本必须承认它们已经提交了事务.
+            NONE:不需要任何事务提交确认,并且主服务器永远不会等待副本确认.
+            SIMPLE_MAJORITY:简单多数的ELECTABLE副本必须承认它们已经提交了事务.
+        </description>
+    </property>
+    <property>
+        <name>replica_sync_policy</name>
+        <value>SYNC</value>
+        <description>bdbje 的Follower FE 同步策略.
+            SYNC:所有ELECTABLE副本必须承认它们已经提交了事务.
+            NO_SYNC:不需要任何事务提交确认,并且主服务器永远不会等待副本确认.
+            SIMPLE_MAJORITY:多数的ELECTABLE副本必须承认它们已经提交了事务.
+        </description>
+    </property>
+    <property>
+        <name>master_sync_policy</name>
+        <value>SYNC</value>
+        <description>Master FE 的 bdbje 同步策略.
+            SYNC:所有ELECTABLE副本必须承认它们已经提交了事务.
+            NO_SYNC:不需要任何事务提交确认,并且主服务器永远不会等待副本确认.
+            SIMPLE_MAJORITY:多数的ELECTABLE副本必须承认它们已经提交了事务.
+        </description>
+    </property>
+    <property>
+        <name>bdbje_reserved_disk_bytes</name>
+        <value>1073741824</value>
+        <description>BDBJE 所需的空闲磁盘空间大小.如果空闲磁盘空间小于这个值,则BDBJE将无法写入.</description>
+        <value-attributes>
+            <type>int</type>
+            <unit>Bytes</unit>
+        </value-attributes>
+    </property>
+    <property>
+        <name>ignore_meta_check</name>
+        <value>false</value>
+        <description>是否忽略元数据延迟,如果 FE 的元数据延迟超过这个阈值,则非 Master FE 仍然提供读服务.这个配置可以用于当
+            Master FE 因为某些原因停止了较长时间,
+            但是仍然希望非 Master FE 可以提供读服务.
+        </description>
+    </property>
+    <property>
+        <name>meta_delay_toleration_second</name>
+        <value>300</value>
+        <description>元数据同步的容忍延迟时间,单位为秒.如果元数据的延迟超过这个值,非主 FE 会停止提供服务</description>
+        <value-attributes>
+            <type>int</type>
+            <unit>Seconds</unit>
+        </value-attributes>
+    </property>
+    <property>
+        <name>edit_log_port</name>
+        <value>9011</value>
+        <description>BDBJE 的端口号</description>
+        <value-attributes>
+            <overridable>false</overridable>
+        </value-attributes>
+    </property>
+    <property>
+        <name>edit_log_roll_num</name>
+        <value>50000</value>
+        <description>BDBJE 的日志滚动大小.当日志条目数超过这个值后,会触发日志滚动</description>
+    </property>
+    <property>
+        <name>query_port</name>
+        <value>9031</value>
+        <description>Doris FE的MySQL Server端口</description>
+        <value-attributes>
+            <overridable>false</overridable>
+        </value-attributes>
+    </property>
+    <property>
+        <name>http_port</name>
+        <value>8031</value>
+        <description>FE http 端口,目前所有 FE 的 http 端口必须相同</description>
+        <value-attributes>
+            <overridable>false</overridable>
+        </value-attributes>
+    </property>
+    <property>
+        <name>https_port</name>
+        <value>8052</value>
+        <description>FE https 端口,目前所有 FE 的 https 端口必须相同</description>
+        <value-attributes>
+            <overridable>false</overridable>
+        </value-attributes>
+    </property>
+    <property>
+        <name>enable_https</name>
+        <value>false</value>
+        <description>是否启用 https,如果启用,http 端口将不可用</description>
+    </property>
+    <property>
+        <name>enable_ssl</name>
+        <value>true</value>
+        <description>如果设置为true, doris将与mysql建立一个基于SSL协议的加密通道.</description>
+    </property>
+    <property>
+        <name>qe_max_connection</name>
+        <value>4096</value>
+        <description>单个 FE 的 MySQL Server 的最大连接数.</description>
+    </property>
+    <property>
+        <name>rpc_port</name>
+        <value>9021</value>
+        <description>FE thrift server 的端口号</description>
+        <value-attributes>
+            <overridable>false</overridable>
+        </value-attributes>
+    </property>
+    <property>
+        <name>thrift_server_type</name>
+        <value>THREAD_POOL</value>
+        <description>该配置表示FE的Thrift服务使用的服务模型, 类型为string, 大小写不敏感.
+            若该参数为 SIMPLE, 则使用 TSimpleServer 模型, 该模型一般不适用于生产环境,仅限于测试使用.
+            若该参数为 THREADED, 则使用 TThreadedSelectorServer 模型,该模型为非阻塞式I/O模型,即主从 Reactor
+            模型,该模型能及时响应大量的并发连接请求,在多数场景下有较好的表现.
+            若该参数为 THREAD_POOL, 则使用 TThreadPoolServer
+            模型,该模型为阻塞式I/O模型,使用线程池处理用户连接,并发连接数受限于线程池的数量,如果能提前预估并发请求的数量,并且能容忍足够多的线程资源开销,该模型会有较好的性能表现,默认使用该服务模型
+        </description>
+    </property>
+    <property>
+        <name>thrift_server_max_worker_threads</name>
+        <value>4096</value>
+        <description>Thrift Server最大工作线程数</description>
+    </property>
+    <property>
+        <name>thrift_client_timeout_ms</name>
+        <value>0</value>
+        <description>thrift 服务器的连接超时和套接字超时配置
+            thrift_client_timeout_ms 的默认值设置为零以防止读取超时
+        </description>
+        <value-attributes>
+            <type>int</type>
+            <unit>ms</unit>
+        </value-attributes>
+    </property>
+    <property>
+        <name>use_compact_thrift_rpc</name>
+        <value>true</value>
+        <description>如果设置为true,查询计划的节俭结构将以紧凑模式发送给be.这将显著减少rpc数据的大小,从而减少rpc超时的机会.但这可能会略微降低查询的并发性,因为压缩和解压缩会消耗更多的CPU.
+        </description>
+    </property>
+    <property>
+        <name>grpc_max_message_size_bytes</name>
+        <value>2147483647</value>
+        <description>用于设置GRPC客户端通道的初始流窗口大小,也用于设置消息大小的最大值.当结果集很大时,您可能需要增加这个值.
+        </description>
+        <value-attributes>
+            <type>int</type>
+            <unit>Bytes</unit>
+        </value-attributes>
+    </property>
+    <property>
+        <name>max_mysql_service_task_threads_num</name>
+        <value>4096</value>
+        <description>mysql 中处理任务的最大线程数.</description>
+    </property>
+    <property>
+        <name>mysql_service_io_threads_num</name>
+        <value>4</value>
+        <description>mysql 中处理 io 事件的线程数.</description>
+    </property>
+    <property>
+        <name>broker_timeout_ms</name>
+        <value>60000</value>
+        <description>和 Broker 进程交互的 RPC 的超时时间,单位是毫秒.</description>
+        <value-attributes>
+            <type>int</type>
+            <unit>ms</unit>
+        </value-attributes>
+    </property>
+    <property>
+        <name>backend_rpc_timeout_ms</name>
+        <value>60000</value>
+        <description>和 Backend 进程交互的 RPC 的超时时间,单位是毫秒.</description>
+        <value-attributes>
+            <type>int</type>
+            <unit>ms</unit>
+        </value-attributes>
+    </property>
+    <property>
+        <name>drop_backend_after_decommission</name>
+        <value>true</value>
+        <description>该配置用于控制系统在成功下线(Decommission) BE 后,是否 Drop 该 BE.如果为 true,则在 BE 成功下线后,会删除掉该
+            BE 节点.如果为 false,则在 BE 成功下线后,该 BE 会一直处于 DECOMMISSION 状态,但不会被删除.
+            该配置在某些场景下可以发挥作用.假设一个 Doris 集群的初始状态为每个 BE 节点有一块磁盘.运行一段时间后,系统进行了纵向扩容,即每个
+            BE 节点新增2块磁盘.因为 Doris 当前还不支持 BE
+            内部各磁盘间的数据均衡,所以会导致初始磁盘的数据量可能一直远高于新增磁盘的数据量.此时我们可以通过以下操作进行人工的磁盘间均衡:
+            将该配置项置为 false.
+            对某一个 BE 节点,执行 decommission 操作,该操作会将该 BE 上的数据全部迁移到其他节点中.
+            decommission 操作完成后,该 BE 不会被删除.此时,取消掉该 BE 的 decommission 状态.则数据会开始从其他 BE
+            节点均衡回这个节点.此时,数据将会均匀的分布到该 BE 的所有磁盘上.
+            对所有 BE 节点依次执行 2,3 两个步骤,最终达到所有节点磁盘均衡的目的.
+        </description>
+    </property>
+    <property>
+        <name>max_agent_task_threads_num</name>
+        <value>4096</value>
+        <description>Agent任务线程池的线程数</description>
+    </property>
+    <property>
+        <name>remote_fragment_exec_timeout_ms</name>
+        <value>45000</value>
+        <description>异步执行远程 fragment 的超时时间. 在正常情况下,异步远程 fragment 将在短时间内执行.
+            如果系统处于高负载状态,请尝试将此超时设置更长的时间.
+        </description>
+        <value-attributes>
+            <type>int</type>
+            <unit>ms</unit>
+        </value-attributes>
+    </property>
+    <property>
+        <name>jetty_server_max_http_post_size</name>
+        <value>104857600</value>
+        <description>这个是 put 或 post 方法上传文件的最大字节数,默认值:100MB</description>
+        <value-attributes>
+            <type>int</type>
+            <unit>Bytes</unit>
+        </value-attributes>
+    </property>
+    <property>
+        <name>jetty_server_max_http_header_size</name>
+        <value>1048576</value>
+        <description>Jetty 的最大 HTTP header 大小,单位是字节,默认值是 1MB.</description>
+        <value-attributes>
+            <type>int</type>
+            <unit>Bytes</unit>
+        </value-attributes>
+    </property>
+    <property>
+        <name>default_max_query_instances</name>
+        <value>-1</value>
+        <description>控制用户实例的默认最大数目.用户属性max_query_instances小于等于0时,使用该配置,用来限制单个用户同一时刻可使用的查询instance个数.该参数小于等于0表示无限制.
+        </description>
+    </property>
+    <property>
+        <name>enable_concurrent_update</name>
+        <value>false</value>
+        <description>是否启用并发更新</description>
+    </property>
+    <property>
+        <name>lower_case_table_names</name>
+        <value>0</value>
+        <description>用于控制用户表表名大小写是否敏感. 该配置只能在集群初始化时配置,初始化完成后集群重启和升级时不能修改.
+            0:表名按指定存储,比较区分大小写.
+            1:表名以小写形式存储,比较不区分大小写.
+            2:表名按指定存储,但以小写形式进行比较.
+        </description>
+    </property>
+    <property>
+        <name>enable_batch_delete_by_default</name>
+        <value>true</value>
+        <description>创建唯一表时是否添加删除标志列,具体原理参照官方文档:操作手册->数据导入->批量删除</description>
+    </property>
+    <property>
+        <name>enable_local_replica_selection</name>
+        <value>false</value>
+        <description>如果设置为true, Planner将尝试选择与此前端相同主机上的平板副本.在以下几种情况下,可能会导致网络传输减少.N台主机,部署N个后端和N个前端.2.
+            数据有N个副本.3.
+            在这种情况下,所有frontend只能使用本地副本来执行查询.如果您希望在没有本地副本可用时允许回退到非本地副本,请将enable_local_replica_selection_fallback设置为true.
+        </description>
+    </property>
+    <property>
+        <name>enable_local_replica_selection_fallback</name>
+        <value>false</value>
+        <description>与 enable_local_replica_selection 配合使用,当本地副本不可用时,使用非本地副本服务查询.</description>
+    </property>
+    <property>
+        <name>max_query_profile_num</name>
+        <value>300</value>
+        <description>用于设置保存查询的 profile 的最大个数.</description>
+    </property>
+    <property>
+        <name>publish_version_interval_ms</name>
+        <value>10</value>
+        <description>Publish 任务触发线程的执行间隔,单位是毫秒.</description>
+        <value-attributes>
+            <type>int</type>
+            <unit>ms</unit>
+        </value-attributes>
+    </property>
+    <property>
+        <name>sys_log_verbose_modules</name>
+        <value>org.apache.doris</value>
+    </property>
+    <property>
+        <name>default_max_filter_ratio</name>
+        <value>0</value>
+        <description>
+            可过滤数据(由于数据不规则等原因)的最大百分比.默认值为0,表示严格模式,只要数据有一条被过滤掉整个导入失败
+        </description>
+    </property>
+    <property>
+        <name>max_unfinished_load_job</name>
+        <value>5000</value>
+        <description>最大加载任务数,包括 PENDING、ETL、LOADING、QUORUM_FINISHED. 如果超过此数量,则不允许提交导入作业.
+        </description>
+    </property>
+    <property>
+        <name>label_clean_interval_second</name>
+        <value>3600</value>
+        <description>导入作业的清理周期,单位为秒.每个周期内,将会清理已经结束的并且过期的导入作业</description>
+        <value-attributes>
+            <type>int</type>
+            <unit>Seconds</unit>
+        </value-attributes>
+    </property>
+    <property>
+        <name>log_roll_size_mb</name>
+        <value>512</value>
+        <description>fe.log 和 fe.audit.log 的最大文件大小.超过这个大小后,日志文件会被切分</description>
+        <value-attributes>
+            <type>int</type>
+            <unit>MB</unit>
+        </value-attributes>
+    </property>
+    <property>
+        <name>sys_log_dir</name>
+        <value>/var/log/doris/fe</value>
+        <description>Doris FE的日志目录</description>
+    </property>
+    <property>
+        <name>sys_log_level</name>
+        <value>INFO</value>
+        <description>日志级别,可选项:INFO, WARN, ERROR, FATAL</description>
+    </property>
+    <property>
+        <name>sys_log_roll_num</name>
+        <value>10</value>
+        <description>FE 日志文件的最大数量.超过这个数量后,最老的日志文件会被删除</description>
+    </property>
+    <property>
+        <name>sys_log_roll_mode</name>
+        <value>SIZE-MB-1024</value>
+        <description>日志拆分的大小,每1G拆分一个日志文件</description>
+    </property>
+    <property>
+        <name>sys_log_enable_compress</name>
+        <value>false</value>
+        <description>控制是否压缩fe log, 包括fe.log 及 fe.warn.log.如果开启,则使用gzip算法进行压缩.</description>
+    </property>
+    <property>
+        <name>audit_log_dir</name>
+        <value>/var/log/doris/fe</value>
+        <description>FE 审计日志文件的存放路径,用于存放 fe.audit.log.</description>
+    </property>
+    <property>
+        <name>recover_with_empty_tablet</name>
+        <value>false</value>
+        <description>在某些情况下,某些 tablet 可能会损坏或丢失所有副本. 此时数据已经丢失,损坏的 tablet
+            会导致整个查询失败,无法查询剩余的健康 tablet.
+            在这种情况下,您可以将此配置设置为 true. 系统会将损坏的 tablet 替换为空 tablet,以确保查询可以执行.
+            (但此时数据已经丢失,所以查询结果可能不准确)
+        </description>
+    </property>
+    <property>
+        <name>disable_storage_medium_check</name>
+        <value>false</value>
+        <description>是否禁用存储介质检查.如果禁用,ReportHandler 将不会检查 tablet 的存储介质,并且禁用存储介质冷却功能.默认值为
+            false.
+        </description>
+    </property>
+    <property>
+        <name>decommission_tablet_check_threshold</name>
+        <value>5000</value>
+        <description>
+            该配置用于控制FE是否执行检测(Decommission)BE上Tablets状态的阈值.如果(Decommission)BE上的Tablets个数大于0但小于该阈值,FE会定时对该BE开启一项检测,
+            如果该BE上的Tablets数量大于0但是所有Tablets均处于被回收的状态,那么FE会立即下线该(Decommission)BE.注意,不要把该值配置的太大,不然在Decommission阶段可能会对FE造成性能压力.
+        </description>
+    </property>
+    <property>
+        <name>disable_balance</name>
+        <value>false</value>
+        <description>如果设置为 true,TabletScheduler 将不会做 balance</description>
+    </property>
+    <property>
+        <name>disable_disk_balance</name>
+        <value>true</value>
+        <description>如果设置为 true,TabletScheduler 将不会做单个BE上磁盘之间的 balance</description>
+    </property>
+    <property>
+        <name>repair_slow_replica</name>
+        <value>false</value>
+        <description>如果设置为 true,会自动检测compaction比较慢的副本,并将迁移到其他机器,检测条件是 最慢副本的版本计数超过
+            min_version_count_indicate_replica_compaction_too_slow 的值, 且与最快副本的版本计数差异所占比例超过
+            valid_version_count_delta_ratio_between_replicas 的值
+        </description>
+    </property>
+    <property>
+        <name>min_version_count_indicate_replica_compaction_too_slow</name>
+        <value>200</value>
+        <description>版本计数阈值,用来判断副本做 compaction 的速度是否太慢</description>
+    </property>
+    <property>
+        <name>valid_version_count_delta_ratio_between_replicas</name>
+        <value>0.5</value>
+        <description>最慢副本的版本计数与最快副本的差异有效比率阈值,如果设置 repair_slow_replica 为
+            true,则用于判断是否修复最慢的副本
+        </description>
+    </property>
+    <property>
+        <name>default_storage_medium</name>
+        <value>HDD</value>
+        <description>创建表(或分区)时,可以指定其存储介质(HDD 或 SSD). 如果未设置,则指定创建时的默认介质.</description>
+    </property>
+</configuration>

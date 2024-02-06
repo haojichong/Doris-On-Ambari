@@ -1,0 +1,72 @@
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements. See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership. The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License. You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied. See the License for the
+# specific language governing permissions and limitations
+# under the License.
+
+#####################################################################
+## The uppercase properties are read and exported by bin/start_fe.sh.
+## To see all Frontend configurations,
+## see fe/src/org/apache/doris/common/Config.java
+#####################################################################
+
+CUR_DATE={{FE_CUR_DATE}}
+
+# the output dir of stderr and stdout
+LOG_DIR = {{FE_LOG_DIR}}
+
+JAVA_OPTS={{FE_JAVA_OPTS}}
+
+##
+## the lowercase properties are read by main program.
+##
+
+# INFO, WARN, ERROR, FATAL
+sys_log_level = {{fe_sys_log_level}}
+
+# NORMAL, BRIEF, ASYNC
+sys_log_mode = {{fe_sys_log_mode}}
+
+# store metadata, must be created before start FE.
+# Default value is ${DORIS_HOME}/doris-meta
+meta_dir = {{fe_meta_dir}}
+
+http_port = {{fe_http_port}}
+rpc_port = {{fe_rpc_port}}
+query_port = {{fe_query_port}}
+edit_log_port = {{fe_edit_log_port}}
+
+# Choose one if there are more than one ip except loopback address.
+# Note that there should at most one ip match this list.
+# If no ip match this rule, will choose one randomly.
+# use CIDR format, e.g. 10.10.10.0/24 or IP format, e.g. 10.10.10.1
+# Default value is empty.
+priority_networks = {{priority_networks}}
+
+# Advanced configurations
+log_roll_size_mb = {{fe_log_roll_size_mb}}
+sys_log_dir = {{fe_sys_log_dir}}
+sys_log_roll_num = {{fe_sys_log_roll_num}}
+sys_log_verbose_modules = {{fe_sys_log_verbose_modules}}
+audit_log_dir = {{fe_audit_log_dir}}
+audit_log_modules = {{fe_audit_log_modules}}
+audit_log_roll_num = {{fe_audit_log_roll_num}}
+meta_delay_toleration_second = {{fe_meta_delay_toleration_second}}
+qe_max_connection={{fe_qe_max_connection}}
+qe_slow_log_ms = {{fe_qe_slow_log_ms}}
+enable_batch_delete_by_default = {{fe_enable_batch_delete_by_default}}
+disable_storage_medium_check = {{fe_disable_storage_medium_check}}
+default_storage_medium = {{fe_default_storage_medium}}
+dynamic_partition_enable = {{fe_dynamic_partition_enable}}
+max_bdbje_clock_delta_ms = {{fe_max_bdbje_clock_delta_ms}}

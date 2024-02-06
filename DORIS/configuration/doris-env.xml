@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+
+<configuration>
+    <property>
+        <name>doris_fe_follower_host_list</name>
+        <value>localhost</value>
+        <description>必填项，Doris Fe Follower主机IP地址（填一个或多个，逗号隔开），例如：192.168.12.100,192.168.12.101,192.168.12.102</description>
+        <value-attributes>
+            <overridable>false</overridable>
+        </value-attributes>
+    </property>
+    <property>
+        <name>doris_fe_observer_host_list</name>
+        <value>none</value>
+        <description>选填项，默认为None。Doris Fe Observer主机IP地址（填一个或多个，逗号隔开），例如：192.168.12.100,192.168.12.101,192.168.12.102</description>
+        <value-attributes>
+            <overridable>false</overridable>
+        </value-attributes>
+    </property>
+    <property>
+        <name>doris_user</name>
+        <value>doris</value>
+        <property-type>USER</property-type>
+        <description>Doris User</description>
+        <value-attributes>
+            <type>user</type>
+            <overridable>false</overridable>
+            <user-groups>
+                <property>
+                    <type>cluster-env</type>
+                    <name>user_group</name>
+                </property>
+            </user-groups>
+        </value-attributes>
+        <on-ambari-upgrade add="true"/>
+    </property>
+    <property>
+        <name>doris_group</name>
+        <value>hadoop</value>
+        <property-type>GROUP</property-type>
+        <description>Doris Group</description>
+    </property>
+    <property>
+        <name>doris_user_keytab</name>
+        <description>Doris keytab path</description>
+        <on-ambari-upgrade add="false"/>
+    </property>
+    <property>
+        <name>doris_user_principal</name>
+        <description>Doris principal</description>
+        <property-type>KERBEROS_PRINCIPAL</property-type>
+        <on-ambari-upgrade add="false"/>
+    </property>
+    <property>
+        <name>fe_root_password</name>
+        <value>root</value>
+        <property-type>PASSWORD</property-type>
+        <value-attributes>
+            <type>password</type>
+            <empty-value-valid>true</empty-value-valid>
+        </value-attributes>
+        <description>Doris Root管理员用户的密码,默认密码为`root`.</description>
+        <on-ambari-upgrade add="true"/>
+    </property>
+</configuration>

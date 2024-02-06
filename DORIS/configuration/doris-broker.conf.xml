@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+
+<configuration supports_final="true">
+    <property>
+        <name>sys_log_level</name>
+        <value>INFO</value>
+        <description>日志级别，可选项:INFO, WARN, ERROR, FATAL</description>
+    </property>
+    <property>
+        <name>broker_ipc_port</name>
+        <value>8001</value>
+        <description>Broker IPC 端口</description>
+    </property>
+    <property>
+        <name>client_expire_seconds</name>
+        <value>3600</value>
+        <description>客户端过期时间</description>
+        <value-attributes>
+            <type>int</type>
+            <unit>seconds</unit>
+            <overridable>false</overridable>
+        </value-attributes>
+    </property>
+    <property>
+        <name>sys_log_dir</name>
+        <value>/var/log/doris/broker</value>
+        <description>Doris Broker的日志目录</description>
+    </property>
+    <property>
+        <name>sys_log_roll_num</name>
+        <value>10</value>
+        <description>默认值:10.要保存在 sys_log_roll_interval 内的最大 Broker 日志文件. 默认为 10,表示一天最多有 10
+            个日志文件
+        </description>
+    </property>
+    <property>
+        <name>sys_log_roll_mode</name>
+        <value>SIZE-MB-1024</value>
+        <description>日志拆分的大小，每1G拆分一个日志文件</description>
+    </property>
+    <property>
+        <name>sys_log_verbose_modules</name>
+        <value>org.apache.doris</value>
+        <description>系统日志详细信息模块</description>
+    </property>
+    <property>
+        <name>audit_log_dir</name>
+        <value>/var/log/doris/broker</value>
+        <description>审计日志目录</description>
+    </property>
+    <property>
+        <name>audit_log_roll_num</name>
+        <value>10</value>
+        <description>保留在 audit_log_roll_interval 内的最大 FE 审计日志文件.</description>
+    </property>
+    <property>
+        <name>audit_log_roll_mode</name>
+        <value>TIME-DAY</value>
+        <description>审计日志滚动方式</description>
+    </property>
+</configuration>
+
