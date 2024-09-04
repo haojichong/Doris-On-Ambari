@@ -6,10 +6,11 @@ from resource_management import *
 
 class Broker(Script):
     def install(self, env):
-        import params, utils
+        import params, utils, common
         env.set_params(params)
         utils.installDependency()
-        self.install_packages(env)
+        # self.install_packages(env)
+        common.installDorisFromTar("extensions/apache_hdfs_broker")
         # 首次安装，清除默认的配置模板
         Execute('rm -rf {0}/hdfs-site.xml'.format(params.doris_broker_conf_dir), user=params.operator)
         self.configure(env)

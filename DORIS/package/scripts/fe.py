@@ -5,7 +5,7 @@ from resource_management import *
 
 class FE(Script):
     def install(self, env):
-        import params, utils
+        import params, utils, common
         env.set_params(params)
         fe_ip = params.hostIpAddress
         # 检查该节点是否存在Fe Observer服务，Follower不能和Observer安装在一台机器上
@@ -16,7 +16,8 @@ class FE(Script):
             raise Exception('FE(Follower) can not install with FE Observer in the same host!')
         else:
             utils.installDependency()
-            self.install_packages(env)
+            # self.install_packages(env)
+            common.installDorisFromTar()
             self.configure(env)
             Logger.info('install doris fe(follower) server successfully!')
 

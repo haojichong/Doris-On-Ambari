@@ -3,6 +3,11 @@
 
 <configuration>
     <property>
+        <name>doris_download</name>
+        <value></value>
+        <description>Doris 安装包下载地址</description>
+    </property>
+    <property>
         <name>doris_fe_follower_host_list</name>
         <value>localhost</value>
         <description>必填项，Doris Fe Follower主机IP地址（填一个或多个，逗号隔开），例如：192.168.12.100,192.168.12.101,192.168.12.102</description>

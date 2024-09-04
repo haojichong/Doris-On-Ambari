@@ -40,6 +40,7 @@ operatorGroup = 'root'
 doris_user = config['configurations']['doris-env']['doris_user']
 doris_group = config['configurations']['doris-env']['doris_group']
 fe_root_password = config['configurations']['doris-env']['fe_root_password']
+doris_package_download_url = config['configurations']['doris-env']['doris_download']
 
 # get system local priority_networks
 priority_networks = commands.getoutput(

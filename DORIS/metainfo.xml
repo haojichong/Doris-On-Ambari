@@ -22,7 +22,7 @@
             <name>DORIS</name>
             <displayName>Doris</displayName>
             <comment>Apache Doris 是一个基于 MPP 架构的高性能、实时的分析型数据库，以极速易用的特点被人们所熟知，仅需亚秒级响应时间即可返回海量数据下的查询结果，不仅可以支持高并发的点查询场景，也能支持高吞吐的复杂分析场景</comment>
-            <version>2.0.2</version>
+            <version>2.0.11</version>
             <components>
                 <component>
                     <name>DORIS_FE</name>
@@ -152,17 +152,6 @@
                 <scriptType>PYTHON</scriptType>
                 <timeout>300</timeout>
             </commandScript>
-
-            <osSpecifics>
-                <osSpecific>
-                    <osFamily>any</osFamily>
-                    <packages>
-                        <package>
-                            <name>doris</name>
-                        </package>
-                    </packages>
-                </osSpecific>
-            </osSpecifics>
 
             <configuration-dependencies>
                 <config-type>capacity-scheduler</config-type>

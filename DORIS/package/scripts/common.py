@@ -341,3 +341,17 @@ def killProcess(serviceName, processFullName):
                 user=params.operator)
     except Exception as exception:
         Logger.debug('kill [${0}] process fail,Msg:{1}'.format(serviceName, exception))
+
+def installDorisFromTar(serviceName="fe"):
+    import params
+    Execute('mkdir -p {0}'.format(params.doris_home_dir), user='root')
+    Execute('chown -R {0}:{1} {2}'.format(params.doris_user, params.doris_group, params.doris_home_dir), user='root')
+    if not os.path.exists('{0}/{1}'.format(params.doris_home_dir, serviceName)):
+        Execute('cd {0};wget {1} -O doris.tar.gz'.format(params.doris_home_dir, params.doris_package_download_url),
+                user=params.doris_user)
+        Execute('cd {0};tar -xf doris.tar.gz --strip-components=1'.format(params.doris_home_dir),
+                user=params.doris_user)
+        Execute('rm -rf {0}/doris.tar.gz'.format(params.doris_home_dir),
+                user="root")
+        if serviceName == 'extensions/apache_hdfs_broker' and not os.path.exists('{0}/broker'.format(params.doris_home_dir)):
+            Execute('ln -s {0}/extensions/apache_hdfs_broker {0}/broker'.format(params.doris_home_dir), user='root')

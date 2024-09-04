@@ -5,10 +5,11 @@ from resource_management import *
 
 class BE(Script):
     def install(self, env):
-        import params, utils
+        import params, utils, common
         env.set_params(params)
         utils.installDependency()
-        self.install_packages(env)
+        # self.install_packages(env)
+        common.installDorisFromTar("be")
         self.configure(env)
         Logger.info('install doris be server successfully!')
 
